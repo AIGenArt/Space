@@ -1,0 +1,111 @@
+document.addEventListener("DOMContentLoaded", function() {
+
+/* universe */
+var universe = document.createElement('div');
+universe.style.position = 'absolute';
+universe.style.top = '0px';
+universe.style.left = '0px';
+universe.style.width = '100%';
+universe.style.height = '100%';
+universe.style.backgroundColor = 'black';
+document.body.appendChild(universe);
+
+/*Stars*/
+
+var stars = [];
+var starCount = 100;
+for (var i = 0; i < starCount; i++) {
+  var star = document.createElement('div');
+  star.style.position = 'absolute';
+  star.style.width = '1px';
+  star.style.height = '1px';
+  star.style.backgroundColor = 'white';
+  star.style.top = Math.random() * 100 + '%';
+  star.style.left = Math.random() * 100 + '%';
+  star.style.opacity = Math.random();
+  universe.appendChild(star);
+  stars.push(star);
+}
+var starSpeed = 0.1;
+var starSpeedIncrement = 0.0001;
+var starSpeedMax = 0.5;
+var starSpeedMin = 0.0;
+var starSpeedDirection = 1;
+var starSpeedChange = function() {
+  starSpeed += starSpeedIncrement * starSpeedDirection;
+  if (starSpeed > starSpeedMax) {
+    starSpeed = starSpeedMax;
+    starSpeedDirection = -1;
+  } else if (starSpeed < starSpeedMin) {
+    starSpeed = starSpeedMin;
+    starSpeedDirection = 1;
+  }
+};
+var starSpeedChangeInterval = setInterval(starSpeedChange, 1000);
+var starMove = function() {
+  for (var i = 0; i < stars.length; i++) {
+    var star = stars[i];
+    var top = parseFloat(star.style.top);
+    var left = parseFloat(star.style.left);
+    top += starSpeed;
+    if (top > 100) {
+      top = 0;
+    }
+    star.style.top = top + '%';
+  }
+};
+var starMoveInterval = setInterval(starMove, 10);
+
+/* no scrollbar */
+document.body.style.overflow = 'hidden';
+
+/* shooting stars*/
+var shootingStarCount = 8;
+var shootingStars = [];
+for (var i = 0; i < shootingStarCount; i++) {
+  var shootingStar = document.createElement('div');
+  shootingStar.style.position = 'absolute';
+  shootingStar.style.width = '1px';
+  shootingStar.style.height = '1px';
+  shootingStar.style.backgroundColor = 'white';
+  shootingStar.style.top = Math.random() * 100 + '%';
+  shootingStar.style.left = Math.random() * 100 + '%';
+  shootingStar.style.opacity = '1.0';
+  universe.appendChild(shootingStar);
+  shootingStars.push(shootingStar);
+}
+var shootingStarSpeed = 0.2;
+var shootingStarSpeedIncrement = 0.0001;
+var shootingStarSpeedMax = 1.5;
+var shootingStarSpeedMin = 0.0;
+var shootingStarSpeedDirection = 1;
+var shootingStarSpeedChange = function() {
+  shootingStarSpeed += shootingStarSpeedIncrement * shootingStarSpeedDirection;
+  if (shootingStarSpeed > shootingStarSpeedMax) {
+    shootingStarSpeed = shootingStarSpeedMax;
+    shootingStarSpeedDirection = -1;
+  } else if (shootingStarSpeed < shootingStarSpeedMin) {
+    shootingStarSpeed = shootingStarSpeedMin;
+    shootingStarSpeedDirection = 1;
+  }
+};
+var shootingStarSpeedChangeInterval = setInterval(shootingStarSpeedChange, 1000);
+var shootingStarArc = function() {
+  for (var i = 0; i < shootingStars.length; i++) {
+    var shootingStar = shootingStars[i];
+    var top = parseFloat(shootingStar.style.top);
+    var left = parseFloat(shootingStar.style.left);
+    top += shootingStarSpeed;
+    left += shootingStarSpeed;
+    if (top > 100) {
+      top = 0;
+    }
+    if (left > 100) {
+      left = 0;
+    }
+    shootingStar.style.top = top + '%';
+    shootingStar.style.left = left + '%';
+  }
+};
+var shootingStarMoveInterval = setInterval(shootingStarArc, 1);
+});
